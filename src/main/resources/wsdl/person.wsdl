@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<wsdl:definitions name="Person"
+
+	targetNamespace="com/cxf/soap/wsdl/services/person"
+	xmlns:tns="com/cxf/soap/wsdl/services/person" xmlns:types="com/cxf/soap/wsdl/types/person"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="com/cxf/soap/wsdl/types/person" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="com/cxf/soap/wsdl/types/person" schemaLocation="person.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="Request">
+		<wsdl:part name="request" element="types:Request" />
+	</wsdl:message>
+
+	<wsdl:message name="Response">
+		<wsdl:part name="response" element="types:Response" />
+	</wsdl:message>
+
+	<wsdl:portType name="Person_PortType">
+		<wsdl:operation name="getFriends">
+			<wsdl:input message="tns:Request" />
+			<wsdl:output message="tns:Response" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="Person_SoapBinding" type="tns:Person_PortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getFriends">
+			<soap:operation
+				soapAction="com/cxf/soap/wsdl/services/person/getFriends" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="Person">
+		<wsdl:documentation>Person service</wsdl:documentation>
+		<wsdl:port name="Person_Port" binding="tns:Person_SoapBinding">
+			<soap:address location="http://localhost:9090/cxf/soap/person" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>
