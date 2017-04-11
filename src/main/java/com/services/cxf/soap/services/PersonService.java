@@ -1,6 +1,8 @@
 package com.services.cxf.soap.services;
 
+import com.cxf.soap.wsdl.services.person.ServiceFaultException;
 import com.cxf.soap.wsdl.types.person.Person;
+import com.cxf.soap.wsdl.types.person.ServiceFault;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,7 +41,14 @@ public class PersonService
         personList.put(person6, Arrays.asList(person2, person3, person4));
     }
 
-    public List<Person> getFriends(Person person, Integer year){
-        return personList.get(person).stream().filter((s)->s.getBirthday()==year).collect(Collectors.toList());
+    public List<Person> getFriends(Person person, Integer year) throws ServiceFaultException {
+        try {
+            return personList.get(person).stream().filter((s) -> s.getBirthday() == year).collect(Collectors.toList());
+        } catch (NullPointerException n){
+            ServiceFault serviceFault = new ServiceFault();
+            serviceFault.setCode("NOT_FOUNT");
+            serviceFault.setDescription("Friends with request year: "+year+" not found.");
+            throw new ServiceFaultException("ERROR",serviceFault);
+        }
     }
 }

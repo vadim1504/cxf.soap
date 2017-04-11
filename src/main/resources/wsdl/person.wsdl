@@ -19,10 +19,15 @@
 		<wsdl:part name="response" element="types:Response" />
 	</wsdl:message>
 
+	<wsdl:message name="ServiceFaultException">
+		<wsdl:part name="serviceFault" element="types:ServiceFault" />
+	</wsdl:message>
+
 	<wsdl:portType name="Person_PortType">
 		<wsdl:operation name="getFriends">
 			<wsdl:input message="tns:Request" />
 			<wsdl:output message="tns:Response" />
+			<wsdl:fault name="serviceFaultException" message="tns:ServiceFaultException"/>
 		</wsdl:operation>
 	</wsdl:portType>
 

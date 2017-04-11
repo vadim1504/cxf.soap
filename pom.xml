@@ -55,7 +55,6 @@
                         <configuration>
                             <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
                             <wsdlOptions>
-
                                 <wsdlOption>
                                     <extraargs>
                                         <extraarg>-xjc-Xguava</extraarg>

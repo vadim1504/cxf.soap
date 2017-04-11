@@ -2,6 +2,8 @@ package com.services.cxf.soap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.cxf.soap.wsdl.services.person.ServiceFault;
+import com.cxf.soap.wsdl.services.person.ServiceFaultException;
 import com.cxf.soap.wsdl.types.person.Person;
 import com.services.cxf.soap.client.PersonClient;
 import org.junit.Test;
@@ -19,11 +21,28 @@ public class SpringCxfApplicationTests {
     private PersonClient personClient;
 
     @Test
-    public void testSayHello() {
+    public void testGetFriends() {
         Person person = new Person();
         person.setName("Vadim");
         person.setBirthday(1996);
-        assertThat(personClient.getFriends(person, 1997)).isEqualTo("Person{name=Igor, birthday=1997}");
-        assertThat(personClient.getFriends(person, 1996)).isEqualTo("Person{name=Nikita, birthday=1996}Person{name=Nikita2, birthday=1996}");
+        try {
+            assertThat(personClient.getFriends(person, 1997)).isEqualTo("Person{name=Igor, birthday=1997}");
+        } catch (ServiceFaultException e) {
+            System.out.printf("Code: "+e.getFaultInfo().getCode()+"; Description: "+e.getFaultInfo().getDescription());
+        }
+        try {
+            assertThat(personClient.getFriends(person, 1996)).isEqualTo("Person{name=Nikita, birthday=1996}Person{name=Nikita2, birthday=1996}");
+        } catch (ServiceFaultException e) {
+            System.out.printf("Code: "+e.getFaultInfo().getCode()+"; Description: "+e.getFaultInfo().getDescription());
+
+        }
+        Person person2 = new Person();
+        person.setName("???");
+        person.setBirthday(0);
+        try {
+            assertThat(personClient.getFriends(person2, 0)).isEqualTo("");
+        } catch (ServiceFaultException e) {
+            System.out.printf("Code: "+e.getFaultInfo().getCode()+"; Description: "+e.getFaultInfo().getDescription());
+        }
     }
 }

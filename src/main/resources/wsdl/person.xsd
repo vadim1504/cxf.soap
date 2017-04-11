@@ -15,6 +15,14 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    <xs:element name="ServiceFault">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="code" type="xs:string"/>
+                <xs:element name="description" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
     <xs:complexType name="person">
         <xs:sequence>
             <xs:element name="name" type="xs:string"/>
