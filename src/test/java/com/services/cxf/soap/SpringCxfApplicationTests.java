@@ -26,19 +26,18 @@ public class SpringCxfApplicationTests {
         person.setName("Vadim");
         person.setBirthday(1996);
         try {
-            assertThat(personClient.getFriends(person, 1997)).isEqualTo("Person{name=Igor, birthday=1997}");
-        } catch (ServiceFaultException e) {
-            System.out.printf("Code: "+e.getFaultInfo().getCode()+"; Description: "+e.getFaultInfo().getDescription());
-        }
-        try {
             assertThat(personClient.getFriends(person, 1996)).isEqualTo("Person{name=Nikita, birthday=1996}Person{name=Nikita2, birthday=1996}");
         } catch (ServiceFaultException e) {
-            System.out.printf("Code: "+e.getFaultInfo().getCode()+"; Description: "+e.getFaultInfo().getDescription());
+            System.out.printf("Code: " + e.getFaultInfo().getCode() + "; Description: " + e.getFaultInfo().getDescription());
 
         }
+    }
+
+    @Test
+    public void testGetFriendsException() {
         Person person2 = new Person();
-        person.setName("???");
-        person.setBirthday(0);
+        person2.setName("???");
+        person2.setBirthday(0);
         try {
             assertThat(personClient.getFriends(person2, 0)).isEqualTo("");
         } catch (ServiceFaultException e) {
