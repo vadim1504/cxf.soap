@@ -9,7 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ClientConfig {
 
-    @Value("${service.address}")
+    // @Value("${service.address}")
+    @Value(value = "http://localhost:9090/cxf/soap/person")
     private String serviceAddress;
 
     @Bean(name = "ClientProxyBean")
