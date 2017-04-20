@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@PropertySource(value = "classpath:application.properties")
 public class ClientConfig {
 
-    // @Value("${service.address}")
-    @Value(value = "http://localhost:9090/cxf/soap/person")
+    @Value("${service.address}")
     private String serviceAddress;
 
     @Bean(name = "ClientProxyBean")
@@ -20,5 +20,4 @@ public class ClientConfig {
         jaxWsProxyFactoryBean.setAddress(serviceAddress);
         return (PersonPortType) jaxWsProxyFactoryBean.create();
     }
-
 }
